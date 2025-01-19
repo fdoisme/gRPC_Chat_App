@@ -1,0 +1,99 @@
+syntax = "proto3";
+
+package chat;
+
+option go_package = "./";
+
+// Service definition
+service ChatService {
+  rpc SaveMessage(SaveMessageRequest) returns (SaveMessageResponse);
+  rpc GetRoomParticipants(GetRoomRequest) returns (RoomParticipantsResponse);
+  rpc GetRoomMessages(GetMessagesRequest) returns (PaginatedMessagesResponse);
+  rpc CreateRoom(CreateRoomRequest) returns (CreateRoomResponse);
+  rpc AddRoomParticipant(AddRoomParticipantRequest) returns (RoomParticipantsResponse);
+}
+
+// SaveMessageRequest for creating a new message
+message SaveMessageRequest {
+  uint64 room_id = 1;
+  string sender_email = 2;
+  string content = 3;
+  string attachment_url = 4; // Optional URL for attachments
+  uint64 reply_to = 5;       // Optional reply to message ID
+}
+
+// SaveMessageResponse returns the ID of the newly created message
+message SaveMessageResponse {
+  uint64 message_id = 1;
+  string created_at = 2;
+}
+
+// Request to fetch details of a room
+message GetRoomRequest {
+  uint64 room_id = 1;
+}
+
+// Request to fetch messages in a room with pagination
+message GetMessagesRequest {
+  uint64 room_id = 1;
+  uint32 limit = 2;
+  uint32 page = 3;
+}
+
+// PaginatedMessagesResponse contains messages and pagination metadata
+message PaginatedMessagesResponse {
+  uint64 room_id = 1;
+  string room_name = 2;
+  repeated Message messages = 3;
+  Pagination pagination = 4;
+}
+
+// Request for creating a new room
+message CreateRoomRequest {
+  string room_name = 1;
+  repeated string user_emails = 2; // List of users to be added
+}
+
+// Response after room creation
+message CreateRoomResponse {
+  uint64 room_id = 1;
+  string room_name = 2;
+}
+
+// Request for adding a participant to a room
+message AddRoomParticipantRequest {
+  uint64 room_id = 1;
+  string user_email = 2;
+}
+
+// Response with room participants
+message RoomParticipantsResponse {
+  uint64 room_id = 1;
+  string room_name = 2;
+  repeated User users = 3;
+}
+
+// Pagination metadata
+message Pagination {
+  uint32 page = 1;
+  uint32 limit = 2;
+  uint32 total_pages = 3;
+  uint32 total_items = 4;
+}
+
+// User definition
+message User {
+  uint64 user_id = 1;
+  string username = 2;
+}
+
+// Message definition
+message Message {
+  uint64 message_id = 1;
+  string sender_email = 2;
+  string content = 3;
+  string attachment_url = 4;
+  uint64 reply_to = 5;
+  string sent_at = 6;
+  string read_at = 7;
+}

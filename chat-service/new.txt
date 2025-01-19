@@ -1,0 +1,53 @@
+buat tiga tabel
+
+1. rooms
+- id 
+- nama "nil" = pv
+- nama "group" != pv
+
+2. room-participants
+- id
+- room_id
+- user_id if > 2 = group
+
+
+response untuk get participant dari tabel rooms {
+{
+"room_id"
+"room_name"
+"users": {
+"user_1",
+"user_2"
+}
+}
+}
+
+room-participants history chat dengan pagnations
+{
+"room_id"
+"room_name"
+"messages":{
+"message_1",
+"message_2"
+}
+}
+
+
+
+buatkan service grpc yang bisa menerima limit dan page by request
+messages => pagnation by req limit, page,
+- id
+- room_id
+- sender_id
+- content text
+- attachment_url "nil" pointer
+- reply_to "nil" pointer
+- read_at "nil" or timestamp
+
+
+tambahkan gorm.model pada setiap tabel dengan field dibawah
+create_at
+delete_at
+update_at
+
+protoc --proto_path=proto --go_out=proto --go-grpc_out=proto /chat.proto

@@ -1,0 +1,47 @@
+syntax = "proto3";
+
+package auth;
+
+option go_package = "./";
+
+service AuthService {
+  rpc Login (LoginRequest) returns (LoginResponse);
+  rpc Register (RegisterRequest) returns (RegisterResponse);
+  rpc ValidateOtp (ValidateOtpRequest) returns (ValidateOtpResponse);
+  rpc ValidateToken (ValidateTokenRequest) returns (ValidateTokenResponse);
+}
+
+message LoginRequest {
+  string email = 1;
+}
+
+message LoginResponse {
+  string id = 1;
+  string otp = 2;
+}
+
+message RegisterRequest {
+  string email = 1;
+}
+
+message RegisterResponse {
+  string id = 1;
+  string otp = 2;
+}
+
+message ValidateOtpRequest {
+  string id = 1;
+  string otp = 2;
+}
+
+message ValidateOtpResponse {
+  string token = 1;
+}
+
+message ValidateTokenRequest {
+  string token = 1;
+}
+
+message ValidateTokenResponse {
+  string email = 1;
+}

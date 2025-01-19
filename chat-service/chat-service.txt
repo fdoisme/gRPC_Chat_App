@@ -1,0 +1,19 @@
+id autoincrement
+idsender email
+room uuid
+content text 
+replay_from null
+url null
+create_at
+status read or unread / bisa timestamp dan nill
+
+response
+succes = true
+data = [gunakan pagnation]
+
+succes = true
+data = message struct
+
+identifikasi pengirim
+buat room
+response api gateway
