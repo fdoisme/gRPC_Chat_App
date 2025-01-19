@@ -1,0 +1,52 @@
+services:
+  api-gateway:
+#    platform: "linux/amd64"
+    build:
+      context: .
+      dockerfile: ./api-gateway/Dockerfile
+    image: paulusottoharman/team1-api-gateway
+    ports:
+      - "${SERVER_PORT:-8181}:${SERVER_PORT:-8181}"
+    env_file:
+      - api-gateway/.env
+#    network_mode: host
+#    extra_hosts:
+#      - "host.docker.internal:0.0.0.0"
+    depends_on:
+      - auth-service
+#      - chat-service
+#      - user-service
+
+  auth-service:
+#    platform: "linux/amd64"
+    build:
+      context: .
+      dockerfile: ./auth-service/Dockerfile
+    image: paulusottoharman/team1-auth-service
+    ports:
+      - "${GRPC_PORT:-51151}:${GRPC_PORT:-51151}"
+    env_file:
+      - auth-service/.env
+#    network_mode: host
+#    extra_hosts:
+#      - "host.docker.internal:0.0.0.0"
+
+#  chat-service:
+#    build:
+#      context: ./chat-service
+#    ports:
+#      - "${PORT:-51152}:${PORT:-51152}"
+#    env_file:
+#      - ./chat-service/.env
+#
+#  user-service:
+#    build:
+#      context: ./user-service
+#    ports:
+#      - "${PORT:-51153}:${PORT:-51153}"
+#    env_file:
+#      - ./user-service/.env
+
+#networks:
+#  lumos:
+#    driver: bridge
